@@ -3,4 +3,4 @@ site_url: https://CPTNB.github.io/opensearch-dashboards-dev-docs/
 nav:
     - Home: index.md
     - About: about.md
-theme: readthedocs
+theme: material
