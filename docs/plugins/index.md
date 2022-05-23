@@ -1,0 +1,3 @@
+# Plugins
+
+Everything about pluginz
