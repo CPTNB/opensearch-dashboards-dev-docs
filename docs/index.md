@@ -1,6 +1,6 @@
-# Welcome to MkDocs
+# Welcome to OpenSearch Dashboards Dev Docs
 
-For full documentation visit [mkdocs.org](https://mkdocs.org).
+Built with MkDocs. For full documentation visit [mkdocs.org](https://mkdocs.org).
 
 ## Commands
 
@@ -15,6 +15,3 @@ For full documentation visit [mkdocs.org](https://mkdocs.org).
     docs/
         index.md  # The documentation homepage.
         ...       # Other markdown pages, images and other files.
-
-# Dummy edit
-Lets see if CI is working
