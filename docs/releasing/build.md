@@ -8,14 +8,14 @@ To build a release version for Linux x64
 ```
 yarn build-platform --linux --skip-os-packages --release
 ```
-This will produce an artifact under `{root}/target/opensearch-dashboards-{version}-linux-x64.tar.gz
+This will produce an artifact under `{root}/target/opensearch-dashboards-{version}-linux-x64.tar.gz`
 
 ### Linux ARM64
 To build a release version for Linux x64
 ```
 yarn build-platform --linux-arm --skip-os-packages --release
 ```
-This will produce an artifact under `{root}/target/opensearch-dashboards-{version}-linux-arm64.tar.gz
+This will produce an artifact under `{root}/target/opensearch-dashboards-{version}-linux-arm64.tar.gz`
 
 ### Linux RPM
 `TODO`
