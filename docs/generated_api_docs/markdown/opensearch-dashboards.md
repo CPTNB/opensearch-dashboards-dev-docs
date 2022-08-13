@@ -4,35 +4,298 @@
 
 ## opensearch-dashboards package
 
+The OpenSearch Dashboards Core APIs for server-side plugins.
+
+A plugin requires a `opensearch_dashboards.json` file at it's root directory that follows [the manfiest schema](./opensearch-dashboards.pluginmanifest.md) to define static plugin information required to load the plugin.
+
+A plugin's `server/index` file must contain a named import, `plugin`<!-- -->, that implements [PluginInitializer](./opensearch-dashboards.plugininitializer.md) which returns an object that implements .
+
+The plugin integrates with the core system via lifecycle events: `setup`<!-- -->, `start`<!-- -->, and `stop`<!-- -->. In each lifecycle method, the plugin will receive the corresponding core services available (either [CoreSetup](./opensearch-dashboards.coresetup.md) or [CoreStart](./opensearch-dashboards.corestart.md)<!-- -->) and any interfaces returned by dependency plugins' lifecycle method. Anything returned by the plugin's lifecycle method will be exposed to downstream dependencies when their corresponding lifecycle methods are invoked.
+
+## Classes
+
+|  Class | Description |
+|  --- | --- |
+|  [BasePath](./opensearch-dashboards.basepath.md) | Access or manipulate the OpenSearch Dashboards base path |
+|  [CspConfig](./opensearch-dashboards.cspconfig.md) | CSP configuration for use in OpenSearch Dashboards. |
+|  [LegacyClusterClient](./opensearch-dashboards.legacyclusterclient.md) | Represents an OpenSearch cluster API client created by the platform. It allows to call API on behalf of the internal OpenSearch Dashboards user and the actual user that is derived from the request headers (via <code>asScoped(...)</code>). |
+|  [LegacyOpenSearchErrorHelpers](./opensearch-dashboards.legacyopensearcherrorhelpers.md) | Helpers for working with errors returned from the OpenSearch service.Since the internal data of errors are subject to change, consumers of the OpenSearch service should always use these helpers to classify errors instead of checking error internals such as <code>body.error.header[WWW-Authenticate]</code> |
+|  [LegacyScopedClusterClient](./opensearch-dashboards.legacyscopedclusterclient.md) | Serves the same purpose as the normal [cluster client](./opensearch-dashboards.iclusterclient.md) but exposes an additional <code>asCurrentUser</code> method that doesn't use credentials of the OpenSearch Dashboards internal user (as <code>asInternalUser</code> does) to request OpenSearch API, but rather passes HTTP headers extracted from the current user request to the API instead. |
+|  [OpenSearchConfig](./opensearch-dashboards.opensearchconfig.md) | Wrapper of config schema. |
+|  [OpenSearchDashboardsRequest](./opensearch-dashboards.opensearchdashboardsrequest.md) | OpenSearch Dashboards specific abstraction for an incoming request. |
+|  [RouteValidationError](./opensearch-dashboards.routevalidationerror.md) | Error to return when the validation is not successful. |
+|  [SavedObjectsClient](./opensearch-dashboards.savedobjectsclient.md) |  |
+|  [SavedObjectsErrorHelpers](./opensearch-dashboards.savedobjectserrorhelpers.md) |  |
+|  [SavedObjectsRepository](./opensearch-dashboards.savedobjectsrepository.md) |  |
+|  [SavedObjectsSerializer](./opensearch-dashboards.savedobjectsserializer.md) | A serializer that can be used to manually convert [raw](./opensearch-dashboards.savedobjectsrawdoc.md) or [sanitized](./opensearch-dashboards.savedobjectsanitizeddoc.md) documents to the other kind. |
+|  [SavedObjectsUtils](./opensearch-dashboards.savedobjectsutils.md) |  |
+|  [SavedObjectTypeRegistry](./opensearch-dashboards.savedobjecttyperegistry.md) | Registry holding information about all the registered [saved object types](./opensearch-dashboards.savedobjectstype.md)<!-- -->. |
+
+## Enumerations
+
+|  Enumeration | Description |
+|  --- | --- |
+|  [AuthResultType](./opensearch-dashboards.authresulttype.md) |  |
+|  [AuthStatus](./opensearch-dashboards.authstatus.md) | Status indicating an outcome of the authentication. |
+
+## Functions
+
+|  Function | Description |
+|  --- | --- |
+|  [exportSavedObjectsToStream({ types, objects, search, savedObjectsClient, exportSizeLimit, includeReferencesDeep, excludeExportDetails, namespace, })](./opensearch-dashboards.exportsavedobjectstostream.md) | Generates sorted saved object stream to be used for export. See the [options](./opensearch-dashboards.savedobjectsexportoptions.md) for more detailed information. |
+|  [importSavedObjectsFromStream({ readStream, objectLimit, overwrite, createNewCopies, savedObjectsClient, typeRegistry, namespace, })](./opensearch-dashboards.importsavedobjectsfromstream.md) | Import saved objects from given stream. See the [options](./opensearch-dashboards.savedobjectsimportoptions.md) for more detailed information. |
+|  [resolveSavedObjectsImportErrors({ readStream, objectLimit, retries, savedObjectsClient, typeRegistry, namespace, createNewCopies, })](./opensearch-dashboards.resolvesavedobjectsimporterrors.md) | Resolve and return saved object import errors. See the [options](./opensearch-dashboards.savedobjectsresolveimporterrorsoptions.md) for more detailed informations. |
+
 ## Interfaces
 
 |  Interface | Description |
 |  --- | --- |
 |  [AppCategory](./opensearch-dashboards.appcategory.md) | A category definition for nav links to know where to sort them in the left hand nav |
-|  [Branding](./opensearch-dashboards.branding.md) | A type definition for custom branding configurations from yml file |
+|  [AssistanceAPIResponse](./opensearch-dashboards.assistanceapiresponse.md) |  |
+|  [AssistantAPIClientParams](./opensearch-dashboards.assistantapiclientparams.md) |  |
+|  [AuditableEvent](./opensearch-dashboards.auditableevent.md) | Event to audit. |
+|  [Auditor](./opensearch-dashboards.auditor.md) | Provides methods to log user actions and access events. |
+|  [AuditorFactory](./opensearch-dashboards.auditorfactory.md) | Creates [Auditor](./opensearch-dashboards.auditor.md) instance bound to the current user credentials. |
+|  [AuditTrailSetup](./opensearch-dashboards.audittrailsetup.md) |  |
+|  [Authenticated](./opensearch-dashboards.authenticated.md) |  |
+|  [AuthNotHandled](./opensearch-dashboards.authnothandled.md) |  |
+|  [AuthRedirected](./opensearch-dashboards.authredirected.md) |  |
+|  [AuthRedirectedParams](./opensearch-dashboards.authredirectedparams.md) | Result of auth redirection. |
+|  [AuthResultParams](./opensearch-dashboards.authresultparams.md) | Result of successful authentication. |
+|  [AuthToolkit](./opensearch-dashboards.authtoolkit.md) | A tool set defining an outcome of Auth interceptor for incoming request. |
 |  [Capabilities](./opensearch-dashboards.capabilities.md) | The read-only set of capabilities available for the current UI session. Capabilities are simple key-value pairs of (string, boolean), where the string denotes the capability ID, and the boolean is a flag indicating if the capability is enabled or disabled. |
+|  [CapabilitiesSetup](./opensearch-dashboards.capabilitiessetup.md) | APIs to manage the [Capabilities](./opensearch-dashboards.capabilities.md) that will be used by the application.<!-- -->Plugins relying on capabilities to toggle some of their features should register them during the setup phase using the <code>registerProvider</code> method.<!-- -->Plugins having the responsibility to restrict capabilities depending on a given context should register their capabilities switcher using the <code>registerSwitcher</code> method.<!-- -->Refers to the methods documentation for complete description and examples. |
+|  [CapabilitiesStart](./opensearch-dashboards.capabilitiesstart.md) | APIs to access the application [Capabilities](./opensearch-dashboards.capabilities.md)<!-- -->. |
+|  [ContextSetup](./opensearch-dashboards.contextsetup.md) | An object that handles registration of context providers and configuring handlers with context. |
+|  [CoreSetup](./opensearch-dashboards.coresetup.md) | Context passed to the plugins <code>setup</code> method. |
+|  [CoreStart](./opensearch-dashboards.corestart.md) | Context passed to the plugins <code>start</code> method. |
+|  [CoreStatus](./opensearch-dashboards.corestatus.md) | Status of core services. |
+|  [CountResponse](./opensearch-dashboards.countresponse.md) |  |
+|  [CustomHttpResponseOptions](./opensearch-dashboards.customhttpresponseoptions.md) | HTTP response parameters for a response with adjustable status code. |
+|  [DeleteDocumentResponse](./opensearch-dashboards.deletedocumentresponse.md) |  |
+|  [DeprecationAPIClientParams](./opensearch-dashboards.deprecationapiclientparams.md) |  |
+|  [DeprecationAPIResponse](./opensearch-dashboards.deprecationapiresponse.md) |  |
+|  [DeprecationInfo](./opensearch-dashboards.deprecationinfo.md) |  |
 |  [DeprecationSettings](./opensearch-dashboards.deprecationsettings.md) | UiSettings deprecation field options. |
+|  [DiscoveredPlugin](./opensearch-dashboards.discoveredplugin.md) | Small container object used to expose information about discovered plugins that may or may not have been started. |
+|  [ErrorHttpResponseOptions](./opensearch-dashboards.errorhttpresponseoptions.md) | HTTP response parameters |
+|  [Explanation](./opensearch-dashboards.explanation.md) |  |
+|  [FakeRequest](./opensearch-dashboards.fakerequest.md) | Fake request object created manually by OpenSearch Dashboards plugins. |
+|  [GetResponse](./opensearch-dashboards.getresponse.md) |  |
+|  [HttpAuth](./opensearch-dashboards.httpauth.md) |  |
+|  [HttpResources](./opensearch-dashboards.httpresources.md) | HttpResources service is responsible for serving static &amp; dynamic assets for OpenSearch Dashboards application via HTTP. Provides API allowing plug-ins to respond with: - a pre-configured HTML page bootstrapping OpenSearch Dashboards client app - custom HTML page - custom JS script file. |
+|  [HttpResourcesRenderOptions](./opensearch-dashboards.httpresourcesrenderoptions.md) | Allows to configure HTTP response parameters |
+|  [HttpResourcesServiceToolkit](./opensearch-dashboards.httpresourcesservicetoolkit.md) | Extended set of [OpenSearchDashboardsResponseFactory](./opensearch-dashboards.opensearchdashboardsresponsefactory.md) helpers used to respond with HTML or JS resource. |
+|  [HttpResponseOptions](./opensearch-dashboards.httpresponseoptions.md) | HTTP response parameters |
+|  [HttpServerInfo](./opensearch-dashboards.httpserverinfo.md) |  |
+|  [HttpServiceSetup](./opensearch-dashboards.httpservicesetup.md) | OpenSearch Dashboards HTTP Service provides own abstraction for work with HTTP stack. Plugins don't have direct access to <code>hapi</code> server and its primitives anymore. Moreover, plugins shouldn't rely on the fact that HTTP Service uses one or another library under the hood. This gives the platform flexibility to upgrade or changing our internal HTTP stack without breaking plugins. If the HTTP Service lacks functionality you need, we are happy to discuss and support your needs. |
+|  [HttpServiceStart](./opensearch-dashboards.httpservicestart.md) |  |
+|  [IClusterClient](./opensearch-dashboards.iclusterclient.md) | Represents an OpenSearch cluster API client created by the platform. It allows to call API on behalf of the internal OpenSearch Dashboards user and the actual user that is derived from the request headers (via <code>asScoped(...)</code>). |
+|  [IContextContainer](./opensearch-dashboards.icontextcontainer.md) | An object that handles registration of context providers and configuring handlers with context. |
+|  [ICspConfig](./opensearch-dashboards.icspconfig.md) | CSP configuration for use in OpenSearch Dashboards. |
+|  [ICustomClusterClient](./opensearch-dashboards.icustomclusterclient.md) | See [IClusterClient](./opensearch-dashboards.iclusterclient.md) |
 |  [ImageValidation](./opensearch-dashboards.imagevalidation.md) |  |
+|  [IndexSettingsDeprecationInfo](./opensearch-dashboards.indexsettingsdeprecationinfo.md) |  |
+|  [IOpenSearchDashboardsResponse](./opensearch-dashboards.iopensearchdashboardsresponse.md) | A response data object, expected to returned as a result of [RequestHandler](./opensearch-dashboards.requesthandler.md) execution |
+|  [IOpenSearchDashboardsSocket](./opensearch-dashboards.iopensearchdashboardssocket.md) | A tiny abstraction for TCP socket. |
+|  [IRenderOptions](./opensearch-dashboards.irenderoptions.md) |  |
+|  [IRouter](./opensearch-dashboards.irouter.md) | Registers route handlers for specified resource path and method. See [RouteConfig](./opensearch-dashboards.routeconfig.md) and [RequestHandler](./opensearch-dashboards.requesthandler.md) for more information about arguments to route registrations. |
+|  [IScopedClusterClient](./opensearch-dashboards.iscopedclusterclient.md) | Serves the same purpose as the normal [cluster client](./opensearch-dashboards.iclusterclient.md) but exposes an additional <code>asCurrentUser</code> method that doesn't use credentials of the OpenSearch Dashboards internal user (as <code>asInternalUser</code> does) to request OpenSearch API, but rather passes HTTP headers extracted from the current user request to the API instead. |
+|  [IUiSettingsClient](./opensearch-dashboards.iuisettingsclient.md) | Server-side client that provides access to the advanced settings stored in opensearch. The settings provide control over the behavior of the OpenSearch Dashboards application. For example, a user can specify how to display numeric or date fields. Users can adjust the settings via Management UI. |
+|  [LegacyAPICaller](./opensearch-dashboards.legacyapicaller.md) |  |
+|  [LegacyCallAPIOptions](./opensearch-dashboards.legacycallapioptions.md) | The set of options that defines how API call should be made and result be processed. |
+|  [LegacyOpenSearchError](./opensearch-dashboards.legacyopensearcherror.md) | @<!-- -->deprecated. The new opensearch client doesn't wrap errors anymore. |
+|  [LegacyRequest](./opensearch-dashboards.legacyrequest.md) |  |
+|  [LegacyServiceSetupDeps](./opensearch-dashboards.legacyservicesetupdeps.md) |  |
+|  [LegacyServiceStartDeps](./opensearch-dashboards.legacyservicestartdeps.md) |  |
+|  [LoggerContextConfigInput](./opensearch-dashboards.loggercontextconfiginput.md) |  |
+|  [LoggingServiceSetup](./opensearch-dashboards.loggingservicesetup.md) | Provides APIs to plugins for customizing the plugin's logger. |
+|  [MetricsServiceSetup](./opensearch-dashboards.metricsservicesetup.md) | APIs to retrieves metrics gathered and exposed by the core platform. |
+|  [NodesVersionCompatibility](./opensearch-dashboards.nodesversioncompatibility.md) |  |
+|  [OnPostAuthToolkit](./opensearch-dashboards.onpostauthtoolkit.md) | A tool set defining an outcome of OnPostAuth interceptor for incoming request. |
+|  [OnPreAuthToolkit](./opensearch-dashboards.onpreauthtoolkit.md) | A tool set defining an outcome of OnPreAuth interceptor for incoming request. |
+|  [OnPreResponseExtensions](./opensearch-dashboards.onpreresponseextensions.md) | Additional data to extend a response. |
+|  [OnPreResponseInfo](./opensearch-dashboards.onpreresponseinfo.md) | Response status code. |
+|  [OnPreResponseRender](./opensearch-dashboards.onpreresponserender.md) | Additional data to extend a response when rendering a new body |
+|  [OnPreResponseToolkit](./opensearch-dashboards.onpreresponsetoolkit.md) | A tool set defining an outcome of OnPreResponse interceptor for incoming request. |
+|  [OnPreRoutingToolkit](./opensearch-dashboards.onpreroutingtoolkit.md) | A tool set defining an outcome of OnPreRouting interceptor for incoming request. |
+|  [OpenSearchDashboardsRequestEvents](./opensearch-dashboards.opensearchdashboardsrequestevents.md) | Request events. |
+|  [OpenSearchDashboardsRequestRoute](./opensearch-dashboards.opensearchdashboardsrequestroute.md) | Request specific route information exposed to a handler. |
+|  [OpenSearchServiceSetup](./opensearch-dashboards.opensearchservicesetup.md) |  |
+|  [OpenSearchServiceStart](./opensearch-dashboards.opensearchservicestart.md) |  |
+|  [OpenSearchStatusMeta](./opensearch-dashboards.opensearchstatusmeta.md) |  |
+|  [OpsMetrics](./opensearch-dashboards.opsmetrics.md) | Regroups metrics gathered by all the collectors. This contains metrics about the os/runtime, the OpenSearch Dashboards process and the http server. |
+|  [OpsOsMetrics](./opensearch-dashboards.opsosmetrics.md) | OS related metrics |
+|  [OpsProcessMetrics](./opensearch-dashboards.opsprocessmetrics.md) | Process related metrics |
+|  [OpsServerMetrics](./opensearch-dashboards.opsservermetrics.md) | server related metrics |
+|  [Plugin\_2](./opensearch-dashboards.plugin_2.md) | The interface that should be returned by a <code>PluginInitializer</code>. |
+|  [PluginConfigDescriptor](./opensearch-dashboards.pluginconfigdescriptor.md) | Describes a plugin configuration properties. |
+|  [PluginInitializerContext](./opensearch-dashboards.plugininitializercontext.md) | Context that's available to plugins during initialization stage. |
+|  [PluginManifest](./opensearch-dashboards.pluginmanifest.md) | Describes the set of required and optional properties plugin can define in its mandatory JSON manifest file. |
+|  [RequestHandlerContext](./opensearch-dashboards.requesthandlercontext.md) | Plugin specific context passed to a route handler.<!-- -->Provides the following clients and services: - [savedObjects.client](./opensearch-dashboards.savedobjectsclient.md) - Saved Objects client which uses the credentials of the incoming request - [savedObjects.typeRegistry](./opensearch-dashboards.isavedobjecttyperegistry.md) - Type registry containing all the registered types. - [opensearch.client](./opensearch-dashboards.iscopedclusterclient.md) - OpenSearch data client which uses the credentials of the incoming request - [opensearch.legacy.client](./opensearch-dashboards.legacyscopedclusterclient.md) - The legacy OpenSearch data client which uses the credentials of the incoming request - [uiSettings.client](./opensearch-dashboards.iuisettingsclient.md) - uiSettings client which uses the credentials of the incoming request - [uiSettings.auditor](./opensearch-dashboards.auditor.md) - AuditTrail client scoped to the incoming request |
+|  [RouteConfig](./opensearch-dashboards.routeconfig.md) | Route specific configuration. |
+|  [RouteConfigOptions](./opensearch-dashboards.routeconfigoptions.md) | Additional route options. |
+|  [RouteConfigOptionsBody](./opensearch-dashboards.routeconfigoptionsbody.md) | Additional body options for a route |
+|  [RouteValidationResultFactory](./opensearch-dashboards.routevalidationresultfactory.md) | Validation result factory to be used in the custom validation function to return the valid data or validation errors<!-- -->See [RouteValidationFunction](./opensearch-dashboards.routevalidationfunction.md)<!-- -->. |
+|  [RouteValidatorConfig](./opensearch-dashboards.routevalidatorconfig.md) | The configuration object to the RouteValidator class. Set <code>params</code>, <code>query</code> and/or <code>body</code> to specify the validation logic to follow for that property. |
+|  [RouteValidatorOptions](./opensearch-dashboards.routevalidatoroptions.md) | Additional options for the RouteValidator class to modify its default behaviour. |
 |  [SavedObject](./opensearch-dashboards.savedobject.md) |  |
 |  [SavedObjectAttributes](./opensearch-dashboards.savedobjectattributes.md) | The data for a Saved Object is stored as an object in the <code>attributes</code> property. |
-|  [SavedObjectError](./opensearch-dashboards.savedobjecterror.md) |  |
+|  [SavedObjectMigrationContext](./opensearch-dashboards.savedobjectmigrationcontext.md) | Migration context provided when invoking a [migration handler](./opensearch-dashboards.savedobjectmigrationfn.md) |
+|  [SavedObjectMigrationMap](./opensearch-dashboards.savedobjectmigrationmap.md) | A map of [migration functions](./opensearch-dashboards.savedobjectmigrationfn.md) to be used for a given type. The map's keys must be valid semver versions.<!-- -->For a given document, only migrations with a higher version number than that of the document will be applied. Migrations are executed in order, starting from the lowest version and ending with the highest one. |
 |  [SavedObjectReference](./opensearch-dashboards.savedobjectreference.md) | A reference to another saved object. |
+|  [SavedObjectsAddToNamespacesOptions](./opensearch-dashboards.savedobjectsaddtonamespacesoptions.md) |  |
+|  [SavedObjectsAddToNamespacesResponse](./opensearch-dashboards.savedobjectsaddtonamespacesresponse.md) |  |
+|  [SavedObjectsBaseOptions](./opensearch-dashboards.savedobjectsbaseoptions.md) |  |
+|  [SavedObjectsBulkCreateObject](./opensearch-dashboards.savedobjectsbulkcreateobject.md) |  |
+|  [SavedObjectsBulkGetObject](./opensearch-dashboards.savedobjectsbulkgetobject.md) |  |
+|  [SavedObjectsBulkResponse](./opensearch-dashboards.savedobjectsbulkresponse.md) |  |
+|  [SavedObjectsBulkUpdateObject](./opensearch-dashboards.savedobjectsbulkupdateobject.md) |  |
+|  [SavedObjectsBulkUpdateOptions](./opensearch-dashboards.savedobjectsbulkupdateoptions.md) |  |
+|  [SavedObjectsBulkUpdateResponse](./opensearch-dashboards.savedobjectsbulkupdateresponse.md) |  |
+|  [SavedObjectsCheckConflictsObject](./opensearch-dashboards.savedobjectscheckconflictsobject.md) |  |
+|  [SavedObjectsCheckConflictsResponse](./opensearch-dashboards.savedobjectscheckconflictsresponse.md) |  |
+|  [SavedObjectsClientProviderOptions](./opensearch-dashboards.savedobjectsclientprovideroptions.md) | Options to control the creation of the Saved Objects Client. |
+|  [SavedObjectsClientWrapperOptions](./opensearch-dashboards.savedobjectsclientwrapperoptions.md) | Options passed to each SavedObjectsClientWrapperFactory to aid in creating the wrapper instance. |
+|  [SavedObjectsCreateOptions](./opensearch-dashboards.savedobjectscreateoptions.md) |  |
+|  [SavedObjectsDeleteByNamespaceOptions](./opensearch-dashboards.savedobjectsdeletebynamespaceoptions.md) |  |
+|  [SavedObjectsDeleteFromNamespacesOptions](./opensearch-dashboards.savedobjectsdeletefromnamespacesoptions.md) |  |
+|  [SavedObjectsDeleteFromNamespacesResponse](./opensearch-dashboards.savedobjectsdeletefromnamespacesresponse.md) |  |
+|  [SavedObjectsDeleteOptions](./opensearch-dashboards.savedobjectsdeleteoptions.md) |  |
+|  [SavedObjectsExportOptions](./opensearch-dashboards.savedobjectsexportoptions.md) | Options controlling the export operation. |
+|  [SavedObjectsExportResultDetails](./opensearch-dashboards.savedobjectsexportresultdetails.md) | Structure of the export result details entry |
+|  [SavedObjectsFindOptions](./opensearch-dashboards.savedobjectsfindoptions.md) |  |
+|  [SavedObjectsFindResponse](./opensearch-dashboards.savedobjectsfindresponse.md) | Return type of the Saved Objects <code>find()</code> method.<!-- -->\*Note\*: this type is different between the Public and Server Saved Objects clients. |
+|  [SavedObjectsFindResult](./opensearch-dashboards.savedobjectsfindresult.md) |  |
+|  [SavedObjectsImportAmbiguousConflictError](./opensearch-dashboards.savedobjectsimportambiguousconflicterror.md) | Represents a failure to import due to a conflict, which can be resolved in different ways with an overwrite. |
+|  [SavedObjectsImportConflictError](./opensearch-dashboards.savedobjectsimportconflicterror.md) | Represents a failure to import due to a conflict. |
+|  [SavedObjectsImportError](./opensearch-dashboards.savedobjectsimporterror.md) | Represents a failure to import. |
+|  [SavedObjectsImportMissingReferencesError](./opensearch-dashboards.savedobjectsimportmissingreferenceserror.md) | Represents a failure to import due to missing references. |
+|  [SavedObjectsImportOptions](./opensearch-dashboards.savedobjectsimportoptions.md) | Options to control the import operation. |
+|  [SavedObjectsImportResponse](./opensearch-dashboards.savedobjectsimportresponse.md) | The response describing the result of an import. |
+|  [SavedObjectsImportRetry](./opensearch-dashboards.savedobjectsimportretry.md) | Describes a retry operation for importing a saved object. |
+|  [SavedObjectsImportSuccess](./opensearch-dashboards.savedobjectsimportsuccess.md) | Represents a successful import. |
+|  [SavedObjectsImportUnknownError](./opensearch-dashboards.savedobjectsimportunknownerror.md) | Represents a failure to import due to an unknown reason. |
+|  [SavedObjectsImportUnsupportedTypeError](./opensearch-dashboards.savedobjectsimportunsupportedtypeerror.md) | Represents a failure to import due to having an unsupported saved object type. |
+|  [SavedObjectsIncrementCounterOptions](./opensearch-dashboards.savedobjectsincrementcounteroptions.md) |  |
+|  [SavedObjectsMappingProperties](./opensearch-dashboards.savedobjectsmappingproperties.md) | Describe the fields of a [saved object type](./opensearch-dashboards.savedobjectstypemappingdefinition.md)<!-- -->. |
+|  [SavedObjectsMigrationLogger](./opensearch-dashboards.savedobjectsmigrationlogger.md) |  |
 |  [SavedObjectsMigrationVersion](./opensearch-dashboards.savedobjectsmigrationversion.md) | Information about the migrations that have been applied to this SavedObject. When OpenSearch Dashboards starts up, OpenSearchDashboardsMigrator detects outdated documents and migrates them based on this value. For each migration that has been applied, the plugin's name is used as a key and the latest migration version as the value. |
-|  [SerializableArray](./opensearch-dashboards.serializablearray.md) |  |
-|  [SerializableRecord](./opensearch-dashboards.serializablerecord.md) |  |
+|  [SavedObjectsRawDoc](./opensearch-dashboards.savedobjectsrawdoc.md) | A raw document as represented directly in the saved object index. |
+|  [SavedObjectsRepositoryFactory](./opensearch-dashboards.savedobjectsrepositoryfactory.md) | Factory provided when invoking a [client factory provider](./opensearch-dashboards.savedobjectsclientfactoryprovider.md) See [SavedObjectsServiceSetup.setClientFactoryProvider](./opensearch-dashboards.savedobjectsservicesetup.setclientfactoryprovider.md) |
+|  [SavedObjectsResolveImportErrorsOptions](./opensearch-dashboards.savedobjectsresolveimporterrorsoptions.md) | Options to control the "resolve import" operation. |
+|  [SavedObjectsServiceSetup](./opensearch-dashboards.savedobjectsservicesetup.md) | Saved Objects is OpenSearchDashboards's data persistence mechanism allowing plugins to use OpenSearch for storing and querying state. The SavedObjectsServiceSetup API exposes methods for registering Saved Object types, creating and registering Saved Object client wrappers and factories. |
+|  [SavedObjectsServiceStart](./opensearch-dashboards.savedobjectsservicestart.md) | Saved Objects is OpenSearchDashboards's data persisentence mechanism allowing plugins to use OpenSearch for storing and querying state. The SavedObjectsServiceStart API provides a scoped Saved Objects client for interacting with Saved Objects. |
+|  [SavedObjectStatusMeta](./opensearch-dashboards.savedobjectstatusmeta.md) | Meta information about the SavedObjectService's status. Available to plugins via [CoreSetup.status](./opensearch-dashboards.coresetup.status.md)<!-- -->. |
+|  [SavedObjectsType](./opensearch-dashboards.savedobjectstype.md) |  |
+|  [SavedObjectsTypeManagementDefinition](./opensearch-dashboards.savedobjectstypemanagementdefinition.md) | Configuration options for the [type](./opensearch-dashboards.savedobjectstype.md)<!-- -->'s management section. |
+|  [SavedObjectsTypeMappingDefinition](./opensearch-dashboards.savedobjectstypemappingdefinition.md) | Describe a saved object type mapping. |
+|  [SavedObjectsUpdateOptions](./opensearch-dashboards.savedobjectsupdateoptions.md) |  |
+|  [SavedObjectsUpdateResponse](./opensearch-dashboards.savedobjectsupdateresponse.md) |  |
+|  [SearchResponse](./opensearch-dashboards.searchresponse.md) |  |
+|  [ServiceStatus](./opensearch-dashboards.servicestatus.md) | The current status of a service at a point in time. |
+|  [SessionCookieValidationResult](./opensearch-dashboards.sessioncookievalidationresult.md) | Return type from a function to validate cookie contents. |
+|  [SessionStorage](./opensearch-dashboards.sessionstorage.md) | Provides an interface to store and retrieve data across requests. |
+|  [SessionStorageCookieOptions](./opensearch-dashboards.sessionstoragecookieoptions.md) | Configuration used to create HTTP session storage based on top of cookie mechanism. |
+|  [SessionStorageFactory](./opensearch-dashboards.sessionstoragefactory.md) | SessionStorage factory to bind one to an incoming request |
+|  [ShardsInfo](./opensearch-dashboards.shardsinfo.md) |  |
+|  [ShardsResponse](./opensearch-dashboards.shardsresponse.md) |  |
+|  [StatusServiceSetup](./opensearch-dashboards.statusservicesetup.md) | API for accessing status of Core and this plugin's dependencies as well as for customizing this plugin's status. |
 |  [StringValidationRegex](./opensearch-dashboards.stringvalidationregex.md) | StringValidation with regex object |
 |  [StringValidationRegexString](./opensearch-dashboards.stringvalidationregexstring.md) | StringValidation as regex string |
 |  [UiSettingsParams](./opensearch-dashboards.uisettingsparams.md) | UiSettings parameters defined by the plugins. |
+|  [UiSettingsServiceSetup](./opensearch-dashboards.uisettingsservicesetup.md) |  |
+|  [UiSettingsServiceStart](./opensearch-dashboards.uisettingsservicestart.md) |  |
 |  [UserProvidedValues](./opensearch-dashboards.userprovidedvalues.md) | Describes the values explicitly set by user. |
+
+## Variables
+
+|  Variable | Description |
+|  --- | --- |
+|  [opensearchDashboardsResponseFactory](./opensearch-dashboards.opensearchdashboardsresponsefactory.md) | Set of helpers used to create <code>OpenSearchDashboardsResponse</code> to form HTTP response on an incoming request. Should be returned as a result of [RequestHandler](./opensearch-dashboards.requesthandler.md) execution. |
+|  [ServiceStatusLevels](./opensearch-dashboards.servicestatuslevels.md) | The current "level" of availability of a service. |
+|  [validBodyOutput](./opensearch-dashboards.validbodyoutput.md) | The set of valid body.output |
 
 ## Type Aliases
 
 |  Type Alias | Description |
 |  --- | --- |
+|  [AppenderConfigType](./opensearch-dashboards.appenderconfigtype.md) |  |
+|  [AuditTrailStart](./opensearch-dashboards.audittrailstart.md) |  |
+|  [AuthenticationHandler](./opensearch-dashboards.authenticationhandler.md) | See [AuthToolkit](./opensearch-dashboards.authtoolkit.md)<!-- -->. |
+|  [AuthHeaders](./opensearch-dashboards.authheaders.md) | Auth Headers map |
+|  [AuthResult](./opensearch-dashboards.authresult.md) |  |
+|  [CapabilitiesProvider](./opensearch-dashboards.capabilitiesprovider.md) | See [CapabilitiesSetup](./opensearch-dashboards.capabilitiessetup.md) |
+|  [CapabilitiesSwitcher](./opensearch-dashboards.capabilitiesswitcher.md) | See [CapabilitiesSetup](./opensearch-dashboards.capabilitiessetup.md) |
+|  [DestructiveRouteMethod](./opensearch-dashboards.destructiveroutemethod.md) | Set of HTTP methods changing the state of the server. |
+|  [GetAuthHeaders](./opensearch-dashboards.getauthheaders.md) | Get headers to authenticate a user against OpenSearch. |
+|  [GetAuthState](./opensearch-dashboards.getauthstate.md) | Gets authentication state for a request. Returned by <code>auth</code> interceptor. |
+|  [HandlerContextType](./opensearch-dashboards.handlercontexttype.md) | Extracts the type of the first argument of a [HandlerFunction](./opensearch-dashboards.handlerfunction.md) to represent the type of the context. |
+|  [HandlerFunction](./opensearch-dashboards.handlerfunction.md) | A function that accepts a context object and an optional number of additional arguments. Used for the generic types in [IContextContainer](./opensearch-dashboards.icontextcontainer.md) |
+|  [HandlerParameters](./opensearch-dashboards.handlerparameters.md) | Extracts the types of the additional arguments of a [HandlerFunction](./opensearch-dashboards.handlerfunction.md)<!-- -->, excluding the [HandlerContextType](./opensearch-dashboards.handlercontexttype.md)<!-- -->. |
+|  [Headers\_2](./opensearch-dashboards.headers_2.md) | Http request headers to read. |
+|  [HttpResourcesRequestHandler](./opensearch-dashboards.httpresourcesrequesthandler.md) | Extended version of [RequestHandler](./opensearch-dashboards.requesthandler.md) having access to [HttpResourcesServiceToolkit](./opensearch-dashboards.httpresourcesservicetoolkit.md) to respond with HTML or JS resources. |
+|  [HttpResourcesResponseOptions](./opensearch-dashboards.httpresourcesresponseoptions.md) | HTTP Resources response parameters |
+|  [HttpResponsePayload](./opensearch-dashboards.httpresponsepayload.md) | Data send to the client as a response payload. |
+|  [IBasePath](./opensearch-dashboards.ibasepath.md) | Access or manipulate the OpenSearch Dashboards base path[BasePath](./opensearch-dashboards.basepath.md) |
+|  [IContextProvider](./opensearch-dashboards.icontextprovider.md) | A function that returns a context value for a specific key of given context type. |
+|  [ILegacyClusterClient](./opensearch-dashboards.ilegacyclusterclient.md) | Represents an OpenSearch cluster API client created by the platform. It allows to call API on behalf of the internal OpenSearch Dashboards user and the actual user that is derived from the request headers (via <code>asScoped(...)</code>).<!-- -->See [LegacyClusterClient](./opensearch-dashboards.legacyclusterclient.md)<!-- -->. |
+|  [ILegacyCustomClusterClient](./opensearch-dashboards.ilegacycustomclusterclient.md) | Represents an OpenSearch cluster API client created by a plugin. It allows to call API on behalf of the internal OpenSearch Dashboards user and the actual user that is derived from the request headers (via <code>asScoped(...)</code>).<!-- -->See [LegacyClusterClient](./opensearch-dashboards.legacyclusterclient.md)<!-- -->. |
+|  [ILegacyScopedClusterClient](./opensearch-dashboards.ilegacyscopedclusterclient.md) | Serves the same purpose as "normal" <code>ClusterClient</code> but exposes additional <code>callAsCurrentUser</code> method that doesn't use credentials of the OpenSearch Dashboards internal user (as <code>callAsInternalUser</code> does) to request OpenSearch API, but rather passes HTTP headers extracted from the current user request to the API.<!-- -->See [LegacyScopedClusterClient](./opensearch-dashboards.legacyscopedclusterclient.md)<!-- -->. |
+|  [IsAuthenticated](./opensearch-dashboards.isauthenticated.md) | Returns authentication status for a request. |
+|  [ISavedObjectsRepository](./opensearch-dashboards.isavedobjectsrepository.md) | See [SavedObjectsRepository](./opensearch-dashboards.savedobjectsrepository.md) |
+|  [ISavedObjectTypeRegistry](./opensearch-dashboards.isavedobjecttyperegistry.md) | See [SavedObjectTypeRegistry](./opensearch-dashboards.savedobjecttyperegistry.md) for documentation. |
+|  [KnownHeaders](./opensearch-dashboards.knownheaders.md) | Set of well-known HTTP headers. |
+|  [LegacyOpenSearchClientConfig](./opensearch-dashboards.legacyopensearchclientconfig.md) |  |
+|  [LifecycleResponseFactory](./opensearch-dashboards.lifecycleresponsefactory.md) | Creates an object containing redirection or error response with error details, HTTP headers, and other data transmitted to the client. |
+|  [LoggerConfigType](./opensearch-dashboards.loggerconfigtype.md) |  |
+|  [MetricsServiceStart](./opensearch-dashboards.metricsservicestart.md) | APIs to retrieves metrics gathered and exposed by the core platform. |
+|  [MIGRATION\_ASSISTANCE\_INDEX\_ACTION](./opensearch-dashboards.migration_assistance_index_action.md) |  |
+|  [MIGRATION\_DEPRECATION\_LEVEL](./opensearch-dashboards.migration_deprecation_level.md) |  |
+|  [MutatingOperationRefreshSetting](./opensearch-dashboards.mutatingoperationrefreshsetting.md) | OpenSearch Refresh setting for mutating operation |
+|  [OnPostAuthHandler](./opensearch-dashboards.onpostauthhandler.md) | See [OnPostAuthToolkit](./opensearch-dashboards.onpostauthtoolkit.md)<!-- -->. |
+|  [OnPreAuthHandler](./opensearch-dashboards.onpreauthhandler.md) | See [OnPreAuthToolkit](./opensearch-dashboards.onpreauthtoolkit.md)<!-- -->. |
+|  [OnPreResponseHandler](./opensearch-dashboards.onpreresponsehandler.md) | See [OnPreRoutingToolkit](./opensearch-dashboards.onpreroutingtoolkit.md)<!-- -->. |
+|  [OnPreRoutingHandler](./opensearch-dashboards.onpreroutinghandler.md) | See [OnPreRoutingToolkit](./opensearch-dashboards.onpreroutingtoolkit.md)<!-- -->. |
+|  [OpenSearchClient](./opensearch-dashboards.opensearchclient.md) | Client used to query the opensearch cluster. |
+|  [OpenSearchClientConfig](./opensearch-dashboards.opensearchclientconfig.md) | Configuration options to be used to create a [cluster client](./opensearch-dashboards.iclusterclient.md) using the [createClient API](./opensearch-dashboards.opensearchservicestart.createclient.md) |
+|  [OpenSearchDashboardsRequestRouteOptions](./opensearch-dashboards.opensearchdashboardsrequestrouteoptions.md) | Route options: If 'GET' or 'OPTIONS' method, body options won't be returned. |
+|  [OpenSearchDashboardsResponseFactory](./opensearch-dashboards.opensearchdashboardsresponsefactory.md) | Creates an object containing request response payload, HTTP headers, error details, and other data transmitted to the client. |
+|  [PluginConfigSchema](./opensearch-dashboards.pluginconfigschema.md) | Dedicated type for plugin configuration schema. |
+|  [PluginInitializer](./opensearch-dashboards.plugininitializer.md) | The <code>plugin</code> export at the root of a plugin's <code>server</code> directory should conform to this interface. |
+|  [PluginName](./opensearch-dashboards.pluginname.md) | Dedicated type for plugin name/id that is supposed to make Map/Set/Arrays that use it as a key or value more obvious. |
+|  [PluginOpaqueId](./opensearch-dashboards.pluginopaqueid.md) |  |
 |  [PublicUiSettingsParams](./opensearch-dashboards.publicuisettingsparams.md) | A sub-set of [UiSettingsParams](./opensearch-dashboards.uisettingsparams.md) exposed to the client-side. |
+|  [RedirectResponseOptions](./opensearch-dashboards.redirectresponseoptions.md) | HTTP response parameters for redirection response |
+|  [RequestHandler](./opensearch-dashboards.requesthandler.md) | A function executed when route path matched requested resource path. Request handler is expected to return a result of one of [OpenSearchDashboardsResponseFactory](./opensearch-dashboards.opensearchdashboardsresponsefactory.md) functions. |
+|  [RequestHandlerContextContainer](./opensearch-dashboards.requesthandlercontextcontainer.md) | An object that handles registration of http request context providers. |
+|  [RequestHandlerContextProvider](./opensearch-dashboards.requesthandlercontextprovider.md) | Context provider for request handler. Extends request context object with provided functionality or data. |
+|  [RequestHandlerWrapper](./opensearch-dashboards.requesthandlerwrapper.md) | Type-safe wrapper for [RequestHandler](./opensearch-dashboards.requesthandler.md) function. |
+|  [ResponseError](./opensearch-dashboards.responseerror.md) | Error message and optional data send to the client in case of error. |
+|  [ResponseErrorAttributes](./opensearch-dashboards.responseerrorattributes.md) | Additional data to provide error details. |
+|  [ResponseHeaders](./opensearch-dashboards.responseheaders.md) | Http response headers to set. |
+|  [RouteContentType](./opensearch-dashboards.routecontenttype.md) | The set of supported parseable Content-Types |
+|  [RouteMethod](./opensearch-dashboards.routemethod.md) | The set of common HTTP methods supported by OpenSearch Dashboards routing. |
+|  [RouteRegistrar](./opensearch-dashboards.routeregistrar.md) | Route handler common definition |
+|  [RouteValidationFunction](./opensearch-dashboards.routevalidationfunction.md) | The custom validation function if @<!-- -->osd/config-schema is not a valid solution for your specific plugin requirements. |
+|  [RouteValidationSpec](./opensearch-dashboards.routevalidationspec.md) | Allowed property validation options: either @<!-- -->osd/config-schema validations or custom validation functions<!-- -->See [RouteValidationFunction](./opensearch-dashboards.routevalidationfunction.md) for custom validation. |
+|  [RouteValidatorFullConfig](./opensearch-dashboards.routevalidatorfullconfig.md) | Route validations config and options merged into one object |
+|  [SafeRouteMethod](./opensearch-dashboards.saferoutemethod.md) | Set of HTTP methods not changing the state of the server. |
 |  [SavedObjectAttribute](./opensearch-dashboards.savedobjectattribute.md) | Type definition for a Saved Object attribute value |
 |  [SavedObjectAttributeSingle](./opensearch-dashboards.savedobjectattributesingle.md) | Don't use this type, it's simply a helper type for [SavedObjectAttribute](./opensearch-dashboards.savedobjectattribute.md) |
-|  [Serializable](./opensearch-dashboards.serializable.md) |  |
+|  [SavedObjectMigrationFn](./opensearch-dashboards.savedobjectmigrationfn.md) | A migration function for a [saved object type](./opensearch-dashboards.savedobjectstype.md) used to migrate it to a given version |
+|  [SavedObjectSanitizedDoc](./opensearch-dashboards.savedobjectsanitizeddoc.md) | Describes Saved Object documents that have passed through the migration framework and are guaranteed to have a <code>references</code> root property. |
+|  [SavedObjectsClientContract](./opensearch-dashboards.savedobjectsclientcontract.md) | Saved Objects is OpenSearchDashboards's data persisentence mechanism allowing plugins to use OpenSearch for storing plugin state.<!-- -->\#\# SavedObjectsClient errors<!-- -->Since the SavedObjectsClient has its hands in everything we are a little paranoid about the way we present errors back to to application code. Ideally, all errors will be either:<!-- -->1. Caused by bad implementation (ie. undefined is not a function) and as such unpredictable 2. An error that has been classified and decorated appropriately by the decorators in [SavedObjectsErrorHelpers](./opensearch-dashboards.savedobjectserrorhelpers.md)<!-- -->Type 1 errors are inevitable, but since all expected/handle-able errors should be Type 2 the <code>isXYZError()</code> helpers exposed at <code>SavedObjectsErrorHelpers</code> should be used to understand and manage error responses from the <code>SavedObjectsClient</code>.<!-- -->Type 2 errors are decorated versions of the source error, so if the opensearch client threw an error it will be decorated based on its type. That means that rather than looking for <code>error.body.error.type</code> or doing substring checks on <code>error.body.error.reason</code>, just use the helpers to understand the meaning of the error:<!-- -->\`\`\`<!-- -->js if (SavedObjectsErrorHelpers.isNotFoundError(error)) { // handle 404 }<!-- -->if (SavedObjectsErrorHelpers.isNotAuthorizedError(error)) { // 401 handling should be automatic, but in case you wanted to know }<!-- -->// always rethrow the error unless you handle it throw error; \`\`\`<!-- -->\#\#\# 404s from missing index<!-- -->From the perspective of application code and APIs the SavedObjectsClient is a black box that persists objects. One of the internal details that users have no control over is that we use an opensearch index for persistance and that index might be missing.<!-- -->At the time of writing we are in the process of transitioning away from the operating assumption that the SavedObjects index is always available. Part of this transition is handling errors resulting from an index missing. These used to trigger a 500 error in most cases, and in others cause 404s with different error messages.<!-- -->From my (Spencer) perspective, a 404 from the SavedObjectsApi is a 404; The object the request/call was targeting could not be found. This is why \#14141 takes special care to ensure that 404 errors are generic and don't distinguish between index missing or document missing.<!-- -->See [SavedObjectsClient](./opensearch-dashboards.savedobjectsclient.md) See [SavedObjectsErrorHelpers](./opensearch-dashboards.savedobjectserrorhelpers.md) |
+|  [SavedObjectsClientFactory](./opensearch-dashboards.savedobjectsclientfactory.md) | Describes the factory used to create instances of the Saved Objects Client. |
+|  [SavedObjectsClientFactoryProvider](./opensearch-dashboards.savedobjectsclientfactoryprovider.md) | Provider to invoke to retrieve a [SavedObjectsClientFactory](./opensearch-dashboards.savedobjectsclientfactory.md)<!-- -->. |
+|  [SavedObjectsClientWrapperFactory](./opensearch-dashboards.savedobjectsclientwrapperfactory.md) | Describes the factory used to create instances of Saved Objects Client Wrappers. |
+|  [SavedObjectsFieldMapping](./opensearch-dashboards.savedobjectsfieldmapping.md) | Describe a [saved object type mapping](./opensearch-dashboards.savedobjectstypemappingdefinition.md) field. |
+|  [SavedObjectsNamespaceType](./opensearch-dashboards.savedobjectsnamespacetype.md) | The namespace type dictates how a saved object can be interacted in relation to namespaces. Each type is mutually exclusive: \* single (default): this type of saved object is namespace-isolated, e.g., it exists in only one namespace. \* multiple: this type of saved object is shareable, e.g., it can exist in one or more namespaces. \* agnostic: this type of saved object is global. |
+|  [SavedObjectUnsanitizedDoc](./opensearch-dashboards.savedobjectunsanitizeddoc.md) | Describes Saved Object documents from OpenSearch Dashboards &lt; 7.0.0 which don't have a <code>references</code> root property defined. This type should only be used in migrations. |
+|  [ScopeableRequest](./opensearch-dashboards.scopeablerequest.md) | A user credentials container. It accommodates the necessary auth credentials to impersonate the current user.<!-- -->See [OpenSearchDashboardsRequest](./opensearch-dashboards.opensearchdashboardsrequest.md)<!-- -->. |
+|  [ServiceStatusLevel](./opensearch-dashboards.servicestatuslevel.md) | A convenience type that represents the union of each value in [ServiceStatusLevels](./opensearch-dashboards.servicestatuslevels.md)<!-- -->. |
+|  [SharedGlobalConfig](./opensearch-dashboards.sharedglobalconfig.md) |  |
+|  [StartServicesAccessor](./opensearch-dashboards.startservicesaccessor.md) | Allows plugins to get access to APIs available in start inside async handlers. Promise will not resolve until Core and plugin dependencies have completed <code>start</code>. This should only be used inside handlers registered during <code>setup</code> that will only be executed after <code>start</code> lifecycle. |
 |  [StringValidation](./opensearch-dashboards.stringvalidation.md) | Allows regex objects or a regex string |
 |  [UiSettingsType](./opensearch-dashboards.uisettingstype.md) | UI element type to represent the settings. |
 

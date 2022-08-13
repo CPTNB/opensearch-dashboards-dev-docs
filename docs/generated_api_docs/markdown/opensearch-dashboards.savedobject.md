@@ -15,7 +15,7 @@ export interface SavedObject<T = unknown>
 |  Property | Type | Description |
 |  --- | --- | --- |
 |  [attributes](./opensearch-dashboards.savedobject.attributes.md) | T | The data for a Saved Object is stored as an object in the <code>attributes</code> property. |
-|  [error?](./opensearch-dashboards.savedobject.error.md) | [SavedObjectError](./opensearch-dashboards.savedobjecterror.md) | <i>(Optional)</i> |
+|  [error?](./opensearch-dashboards.savedobject.error.md) | SavedObjectError | <i>(Optional)</i> |
 |  [id](./opensearch-dashboards.savedobject.id.md) | string | The ID of this Saved Object, guaranteed to be unique for all objects of the same <code>type</code> |
 |  [migrationVersion?](./opensearch-dashboards.savedobject.migrationversion.md) | [SavedObjectsMigrationVersion](./opensearch-dashboards.savedobjectsmigrationversion.md) | <i>(Optional)</i> Information about the migrations that have been applied to this SavedObject. When OpenSearch Dashboards starts up, OpenSearchDashboardsMigrator detects outdated documents and migrates them based on this value. For each migration that has been applied, the plugin's name is used as a key and the latest migration version as the value. |
 |  [namespaces?](./opensearch-dashboards.savedobject.namespaces.md) | string\[\] | <i>(Optional)</i> Namespace(s) that this saved object exists in. This attribute is only used for multi-namespace saved object types. |
