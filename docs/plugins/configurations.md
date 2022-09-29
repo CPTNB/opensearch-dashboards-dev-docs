@@ -5,7 +5,7 @@ You can configure your plugin by setting values in `{root}/config/opensearch_das
 
 For example:
 ```
-server.maxPayloadBytes=1759977
+server.maxPayloadBytes: 1759977
 ```
 
 ### Configure by argument
